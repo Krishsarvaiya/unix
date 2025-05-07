@@ -1,0 +1,5 @@
+Execution of User Management Commands like who, whoami, su, sudo, login,
+
+logout, exit, useradd/adduser, usermod, userdel, groupadd, groupmod,
+
+groupdel, gpasswd, chown, chage, chgrp, chfn, etc.

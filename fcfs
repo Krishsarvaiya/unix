@@ -1,0 +1,155 @@
+// nano filename.c
+// gcc filename.c -o filename
+// ./filename
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+void calc(int bt[], int at[], int ct[], int tat[], int wt[], int n) {
+
+int currentTime = 0;
+
+for (int i = 0; i < n; i++) {
+
+if (at[i] > currentTime) {
+
+currentTime = at[i];
+
+}
+
+ct[i] = currentTime + bt[i];
+
+tat[i] = ct[i] - at[i];    
+
+wt[i] = tat[i] - bt[i];    
+
+currentTime = ct[i];        
+
+}
+
+}
+
+void show(int id[], int bt[], int at[], int ct[], int tat[], int wt[], int n) {
+
+printf("\nProcess\tArrival\tBurst\tCompletion\tTurn-Around\tWaiting\n");
+
+for (int i = 0; i < n; i++) {
+
+printf(" P[%d]\t %d\t %d\t %d\t\t %d\t\t %d\n", id[i], at[i], bt[i], ct[i], tat[i], wt[i]);
+
+}
+
+}
+
+void sortProcesses(int id[], int bt[], int at[], int n) {
+
+for (int i = 0; i < n - 1; i++) {
+
+for (int j = 0; j < n - i - 1; j++) {
+
+if (at[j] > at[j + 1]) {
+
+int temp = at[j];
+
+at[j] = at[j + 1];
+
+at[j + 1] = temp;
+
+temp = bt[j];
+
+bt[j] = bt[j + 1];
+
+bt[j + 1] = temp;
+
+temp = id[j];
+
+id[j] = id[j + 1];
+
+id[j + 1] = temp;
+
+}
+
+}
+
+}
+
+}
+
+int main() {
+
+int n;
+
+printf("Enter the number of processes in your system:\n");
+
+scanf("%d", &n);
+
+if (n <= 0) {
+
+printf("Invalid number of processes. Exiting...\n");
+
+return 1;
+
+}
+
+int id[n], bt[n], at[n], ct[n], tat[n], wt[n];
+
+for (int i = 0; i < n; i++) {
+
+printf("Enter details for process %d:\n", i + 1);
+
+printf("Arrival Time: ");
+
+scanf("%d", &at[i]);
+
+if (at[i] < 0) {
+
+printf("Arrival time cannot be negative. Exiting...\n");
+
+return 1;
+
+}
+
+printf("Burst Time: ");
+
+scanf("%d", &bt[i]);
+
+if (bt[i] <= 0) {
+
+printf("Burst time must be positive. Exiting...\n");
+
+return 1;
+
+}
+
+id[i] = i + 1;
+
+}
+
+sortProcesses(id, bt, at, n);
+
+calc(bt, at, ct, tat, wt, n);
+
+show(id, bt, at, ct, tat, wt, n);
+
+float avg_tat = 0, avg_wt = 0;
+
+for (int i = 0; i < n; i++) {
+
+avg_tat += tat[i];
+
+avg_wt += wt[i];
+
+}
+
+avg_tat /= n;
+
+avg_wt /= n;
+
+printf("\nAverage Turnaround Time: %.2f\n", avg_tat);
+
+printf("Average Waiting Time: %.2f\n", avg_wt);
+
+return 0;
+
+}
